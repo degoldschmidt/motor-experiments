@@ -4,7 +4,7 @@
 % the cursor a red target. The protocol starts with a train phase where the
 % target has a randomly attributed position per trial in one of eight
 % possible positions. The protocol passes to a test phase where the goal 
-% is the same but the cursor is rotated 45º. The program ends with a after phase 
+% is the same but the cursor is rotated 45?. The program ends with a after phase 
 % that is the same as the train phase.
 %%
 
@@ -14,7 +14,10 @@ clear all;
 sca
 PsychDefaultSetup(2);
 
-joystick_in=1; %uses joystick!
+USE_DEVICE = 1; % 0: Mouse; 1: Joystick; 2: Gamepad
+assert((USE_DEVICE>-1&&USE_DEVICE<3), 'Use correct input device index! 0: Mouse; 1: Joystick; 2: Gamepad');
+USE_OS   = 1;   % 0: Windows; 1: MacOS
+assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
 jmax=2^16;
 
 % Number of trial per phase
@@ -102,10 +105,10 @@ R = [cos(tt), -sin(tt); sin(tt), cos(tt)]; % rotation matrix
 
 % Reset the mouse to tha center and hide cursor
 HideCursor()
-if ~joystick_in
-SetMouse(xCenter, yCenter, window);
+if USE_DEVICE==0
+    SetMouse(xCenter, yCenter, window);
 else
-jxm=jmax/2; jym=jmax/2;    
+    jxm=jmax/2; jym=jmax/2;    
 end
 
 % Auxiliary variables to build the protocol
@@ -187,12 +190,14 @@ while ~exitDemo
                 break;
             end
             % Get the mouse position
-            if ~joystick_in
+            if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
-            else
+            elseif USE_DEVICE==1
                 [jxm jym jzm buttons]= WinJoystickMex(0);
                 xm=(jxm/jmax) * screenXpixels;
                 ym = jym/jmax * screenYpixels;
+            else
+                
             end
             % Get mouse distance from center
             rr = sqrt((xm-xCenter)^2 + (ym-yCenter)^2);
@@ -451,12 +456,19 @@ while ~exitDemo
                 break;
             end
             % Get the mouse position
-            if ~joystick_in
+            if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
-            else
+            elseif USE_DEVICE==1
+                if USE_OS
                 [jxm jym jzm buttons]= WinJoystickMex(0);
                 xm=(jxm/jmax) * screenXpixels;
                 ym = jym/jmax * screenYpixels;
+            else
+                jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                xm=(jxm/jmax) * screenXpixels;
+                ym = jym/jmax * screenYpixels;
+                buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
             end
             % Get mouse distance from center
             rr = sqrt((xm-xCenter)^2 + (ym-yCenter)^2);
