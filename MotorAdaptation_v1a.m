@@ -30,9 +30,9 @@ switch input_device% 0: Mouse; 1: Joystick; 2: Gamepad
 end
 
 if ispc % 0: Windows; 1: MacOS
-    USE_OS =0;
+    USE_OS = 0;
 elseif ismac
-    USE_OS=1;
+    USE_OS = 1;
 else
     error('Linux is not supported. Asshole -.-')
 end  
@@ -74,8 +74,18 @@ screenNumber = max(screens);
 white = WhiteIndex(screenNumber);
 black = BlackIndex(screenNumber);
 [window, windowRect] = PsychImaging('OpenWindow', screenNumber, white);
-[screenXpixels, screenYpixels] = Screen('WindowSize', window);
-[xCenter, yCenter] = RectCenter(windowRect);
+if USE_OS==0
+    [screenXpixels, screenYpixels] = Screen('WindowSize', window);
+else
+    screenXpixels = 1280 
+    screenYpixels = 1024
+end
+if USE_OS==0
+    [xCenter, yCenter] = RectCenter(windowRect);
+else
+    xCenter = 1280/2; 
+    yCenter = 1024/2;
+end
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 % Run the program in high priority
