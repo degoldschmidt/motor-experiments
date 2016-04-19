@@ -36,7 +36,15 @@ elseif ismac
     USE_OS=1;
 else
     error('Linux is not supported. Asshole -.-')
-end  
+end
+
+if USE_OS==1
+    numPads = Gamepad('GetNumGamepads')
+    gamepadName = Gamepad('GetGamepadNamesFromIndices', joy_index)
+    numButtons = Gamepad('GetNumButtons', joy_index)
+    numAxes = Gamepad('GetNumAxes', joy_index)
+end 
+error('Breakpoint')    
 % assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
 
 jmax=2^16;
