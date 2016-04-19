@@ -202,6 +202,7 @@ while ~exitDemo
         % After introduction pass to menu 1
         menu = 1;
     elseif menu == 1
+        rng('shuffle');
         % Menu 1 is the training phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -348,6 +349,7 @@ while ~exitDemo
         % Go to menu 3
         menu = 3;
     elseif menu == 3
+        rng('shuffle');
         % Menu 3 is the test phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -488,6 +490,7 @@ while ~exitDemo
         % Go to menu 5
         menu = 5;
     elseif menu == 5
+        rng('shuffle')
         % Menu 5 is the after phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
