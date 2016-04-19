@@ -14,7 +14,6 @@ function [Test, Train, After] = MotorAdaptation_v1(n_trials,input_device,test_su
 
 % Clear the workspace and the screen
 close all;
-clear all;
 sca
 PsychDefaultSetup(2);
 
@@ -37,14 +36,7 @@ elseif ismac
 else
     error('Linux is not supported. Asshole -.-')
 end
-
-if USE_OS==1
-    numPads = Gamepad('GetNumGamepads')
-    gamepadName = Gamepad('GetGamepadNamesFromIndices', joy_index)
-    numButtons = Gamepad('GetNumButtons', joy_index)
-    numAxes = Gamepad('GetNumAxes', joy_index)
-end 
-error('Breakpoint')    
+    
 % assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
 
 jmax=2^16;
@@ -223,8 +215,8 @@ while ~exitDemo
                 [xm, ym, buttons] = GetMouse(window);
             elseif USE_DEVICE==1
                 [jxm jym jzm buttons]= WinJoystickMex(0);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
+                xm=(jxm/jmax) * screenXpixels %+screenXpixels/jmax
+                ym = jym/jmax * screenYpixels; %+screenXpixels/jmax;
             else
                 
             end
