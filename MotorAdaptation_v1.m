@@ -1,9 +1,10 @@
-function [Test, Train, After] = MotorAdaptation_v1(n_trials,input_device,test_subject)
+function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
 %% 
 %[Test, Train, After] = MotorAdaptation_v1(n_trials,input_device)
+%  folder_path = 'C:\Users\Rodrigo\Documents\INDP2015\Motor Week\Data';
 % Example: n_trials = [10 10 10]; - trials for each phase of experiment
 % input_device = 'Mouse' or 'Joystick' or 'Gamepad'
-% This script generates a game using Psychtoolbox to study visuomotor 
+% This function generates a game using Psychtoolbox to study visuomotor 
 % adaptation in humans. The subjects have the primary goal of reaching with 
 % the cursor a red target. The protocol starts with a train phase where the
 % target has a randomly attributed position per trial in one of eight
@@ -17,7 +18,6 @@ close all;
 sca
 PsychDefaultSetup(2);
 
-
 switch input_device% 0: Mouse; 1: Joystick; 2: Gamepad
     case 'Mouse'
         USE_DEVICE = 0;
@@ -28,16 +28,14 @@ switch input_device% 0: Mouse; 1: Joystick; 2: Gamepad
     otherwise
         error('That input device is not supported. Asshole -.-')
 end
-% assert((USE_DEVICE>-1&&USE_DEVICE<3), 'Use correct input device index! 0: Mouse; 1: Joystick; 2: Gamepad');
+
 if ispc % 0: Windows; 1: MacOS
-    USE_OS =0;
+    USE_OS = 0;
 elseif ismac
-    USE_OS=1;
+    USE_OS = 1;
 else
     error('Linux is not supported. Asshole -.-')
-end
-    
-% assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
+end  
 
 jmax=2^16;
 
@@ -99,6 +97,7 @@ dotColorsMatrix = [];
 dotCenter = [];
 
 % Initialize target position
+reset_rad = 50;
 t1Xpos = screenXpixels;
 t1Ypos = screenYpixels;
 
@@ -129,8 +128,8 @@ HideCursor()
 if USE_DEVICE==0
     SetMouse(xCenter, yCenter, window);
 else
-    if USE_OS == 0
-        jxm=jmax/2; jym=jmax/2;   
+    if USE_OS==0
+        jxm=jmax/2; jym=jmax/2;
     else
         jxm=0; jym=0;
     end
@@ -139,9 +138,9 @@ end
 % Auxiliary variables to build the protocol
 % Within each phase the protocol can be in a trial or intertrial (State)
 State = 0;
-nTrialt = 0;
-nTrialp = 0;
-nTriala = 0;
+nTrialt = 1;
+nTrialp = 1;
+nTriala = 1;
 TrialDXY = [];
 ttr = possiblePositions(randi(9,1));
 
@@ -201,8 +200,9 @@ while ~exitDemo
         dotPositionMatrix = [];
         
         % After introduction pass to menu 1
-        %menu = 1;
-    %elseif menu == 1
+        menu = 1;
+    elseif menu == 1
+        rng('shuffle');
         % Menu 1 is the training phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -218,20 +218,22 @@ while ~exitDemo
             if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
             elseif USE_DEVICE==1
-                if USE_OS == 0
+                if USE_OS==0 %Windows
                     [jxm jym jzm buttons]= WinJoystickMex(0);
-                    xm=(jxm/jmax) * screenXpixels %+screenXpixels/jmax
-                    ym = jym/jmax * screenYpixels; %+screenXpixels/jmax;
-                else
+                    xm=(jxm/jmax) * screenXpixels;
+                    ym = jym/jmax * screenYpixels;
+                elseif USE_OS==1 %MAC
                     jxm = Gamepad('GetAxis', USE_DEVICE, 1);
                     jym = Gamepad('GetAxis', USE_DEVICE, 2);
-                    xm=(jxm/jmax + 0.5) * screenXpixels; 
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
                     ym = (jym/jmax + 0.5) * screenYpixels;
                     buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
                 end
-            else
+            else %if Gamepad
                 
             end
+           
+
             % Get mouse distance from center
             rr = sqrt((xm-xCenter)^2 + (ym-yCenter)^2);
             % If it's a trial
@@ -300,7 +302,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial 
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
@@ -347,6 +349,7 @@ while ~exitDemo
         % Go to menu 3
         menu = 3;
     elseif menu == 3
+        rng('shuffle');
         % Menu 3 is the test phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -359,12 +362,22 @@ while ~exitDemo
                 break;
             end
             % Get the mouse position
-            if ~joystick_in
+            if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
-            else              
-                [jxm jym jzm buttons]= WinJoystickMex(0);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
+            elseif USE_DEVICE==1
+                if USE_OS==0 %Windows
+                    [jxm jym jzm buttons]= WinJoystickMex(0);
+                    xm=(jxm/jmax) * screenXpixels;
+                    ym = jym/jmax * screenYpixels;
+                elseif USE_OS==1 %MAC
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                end
+            else %if Gamepad
+
             end
 
             % Get mouse distance from center
@@ -433,7 +446,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
@@ -477,6 +490,7 @@ while ~exitDemo
         % Go to menu 5
         menu = 5;
     elseif menu == 5
+        rng('shuffle')
         % Menu 5 is the after phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -492,16 +506,19 @@ while ~exitDemo
             if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
             elseif USE_DEVICE==1
-                if USE_OS
-                [jxm jym jzm buttons]= WinJoystickMex(0);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
-            else
-                jxm = Gamepad('GetAxis', USE_DEVICE, 1);
-                jym = Gamepad('GetAxis', USE_DEVICE, 2);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
-                buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                if USE_OS==0 %Windows
+                    [jxm jym jzm buttons]= WinJoystickMex(0);
+                    xm=(jxm/jmax) * screenXpixels;
+                    ym = jym/jmax * screenYpixels;
+                elseif USE_OS==1 %MAC
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                end
+            else %if Gamepad
+               
             end
             % Get mouse distance from center
             rr = sqrt((xm-xCenter)^2 + (ym-yCenter)^2);
@@ -570,7 +587,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
@@ -599,7 +616,8 @@ end
 % Protocol is over, show cursor and save the data structures in one file
 ShowCursor()
 i = 0;
-str = ['C:\Users\Rodrigo\Documents\INDP2015\Motor Week\dummyData' num2str(i) '.mat'];
+
+str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
 if exist(str, 'file') == 0
     trr = true;
 else
@@ -607,7 +625,7 @@ else
 end
 while ~trr
     i = i + 1;
-    str = ['C:\Users\Rodrigo\Documents\INDP2015\Motor Week\dummyData' num2str(i) '.mat'];
+    str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
     if exist(str, 'file') == 0
         trr = true;
     else
