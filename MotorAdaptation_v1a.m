@@ -1,6 +1,7 @@
-function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject)
+function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
 %% 
 %[Test, Train, After] = MotorAdaptation_v1(n_trials,input_device)
+%  folder_path = 'C:\Users\Rodrigo\Documents\INDP2015\Motor Week\Data';
 % Example: n_trials = [10 10 10]; - trials for each phase of experiment
 % input_device = 'Mouse' or 'Joystick' or 'Gamepad'
 % This function generates a game using Psychtoolbox to study visuomotor 
@@ -611,7 +612,8 @@ end
 % Protocol is over, show cursor and save the data structures in one file
 ShowCursor()
 i = 0;
-str = ['C:\Users\Rodrigo\Documents\INDP2015\Motor Week\dummyData' num2str(i) '.mat'];
+
+str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
 if exist(str, 'file') == 0
     trr = true;
 else
@@ -619,7 +621,7 @@ else
 end
 while ~trr
     i = i + 1;
-    str = ['C:\Users\Rodrigo\Documents\INDP2015\Motor Week\dummyData' num2str(i) '.mat'];
+    str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
     if exist(str, 'file') == 0
         trr = true;
     else
