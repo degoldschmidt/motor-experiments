@@ -8,7 +8,7 @@ function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_s
 % the cursor a red target. The protocol starts with a train phase where the
 % target has a randomly attributed position per trial in one of eight
 % possible positions. The protocol passes to a test phase where the goal 
-% is the same but the cursor is rotated 45º. The program ends with a after phase 
+% is the same but the cursor is rotated 45?. The program ends with a after phase 
 % that is the same as the train phase.
 %%
 
@@ -126,7 +126,11 @@ HideCursor()
 if USE_DEVICE==0
     SetMouse(xCenter, yCenter, window);
 else
-    jxm=jmax/2; jym=jmax/2;
+    if USE_OS==0
+        jxm=jmax/2; jym=jmax/2;
+    else
+        jxm=0; jym=0;
+    end
 end
 
 % Auxiliary variables to build the protocol
@@ -217,10 +221,10 @@ while ~exitDemo
                     ym = jym/jmax * screenYpixels;
                 elseif USE_OS==1 %MAC
                     jxm = Gamepad('GetAxis', USE_DEVICE, 1);
-                jym = Gamepad('GetAxis', USE_DEVICE, 2);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
-                buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
                 end
             else %if Gamepad
                 
@@ -362,14 +366,14 @@ while ~exitDemo
                     xm=(jxm/jmax) * screenXpixels;
                     ym = jym/jmax * screenYpixels;
                 elseif USE_OS==1 %MAC
-                    
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
                 end
             else %if Gamepad
-                jxm = Gamepad('GetAxis', USE_DEVICE, 1);
-                jym = Gamepad('GetAxis', USE_DEVICE, 2);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
-                buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+
             end
 
             % Get mouse distance from center
@@ -502,14 +506,14 @@ while ~exitDemo
                     xm=(jxm/jmax) * screenXpixels;
                     ym = jym/jmax * screenYpixels;
                 elseif USE_OS==1 %MAC
-                    
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels;
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
                 end
             else %if Gamepad
-                jxm = Gamepad('GetAxis', USE_DEVICE, 1);
-                jym = Gamepad('GetAxis', USE_DEVICE, 2);
-                xm=(jxm/jmax) * screenXpixels;
-                ym = jym/jmax * screenYpixels;
-                buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+               
             end
             % Get mouse distance from center
             rr = sqrt((xm-xCenter)^2 + (ym-yCenter)^2);
