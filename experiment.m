@@ -1,4 +1,8 @@
+function [Test, Train, After] = MotorAdaptation_v1(n_trials,input_device,test_subject)
 %% 
+%[Test, Train, After] = MotorAdaptation_v1(n_trials,input_device)
+% Example: n_trials = [10 10 10]; - trials for each phase of experiment
+% input_device = 'Mouse' or 'Joystick' or 'Gamepad'
 % This script generates a game using Psychtoolbox to study visuomotor 
 % adaptation in humans. The subjects have the primary goal of reaching with 
 % the cursor a red target. The protocol starts with a train phase where the
@@ -14,16 +18,33 @@ clear all;
 sca
 PsychDefaultSetup(2);
 
-USE_DEVICE = 1; % 0: Mouse; 1: Joystick; 2: Gamepad
-assert((USE_DEVICE>-1&&USE_DEVICE<3), 'Use correct input device index! 0: Mouse; 1: Joystick; 2: Gamepad');
-USE_OS   = 1;   % 0: Windows; 1: MacOS
-assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
+
+switch input_device% 0: Mouse; 1: Joystick; 2: Gamepad
+    case 'Mouse'
+        USE_DEVICE = 0;
+    case 'Joystick'
+        USE_DEVICE = 1;
+    case 'Gamepad'
+        USE_DEVICE = 2;
+    otherwise
+        error('That input device is not supported. Asshole -.-')
+end
+% assert((USE_DEVICE>-1&&USE_DEVICE<3), 'Use correct input device index! 0: Mouse; 1: Joystick; 2: Gamepad');
+if ispc % 0: Windows; 1: MacOS
+    USE_OS =0;
+elseif ismac
+    USE_OS=1;
+else
+    error('Linux is not supported. Asshole -.-')
+end  
+% assert((USE_DEVICE>-1&&USE_DEVICE<2), 'Use correct OS index! 0: Windows; 1: MacOS');
+
 jmax=2^16;
 
 % Number of trial per phase
-NumberTrialsProtocol = 10;
-NumberTrialsTrain = 10;
-NumberTrialsAfter = 10;
+NumberTrialsProtocol = n_trials(1);
+NumberTrialsTrain = n_trials(2);
+NumberTrialsAfter = n_trials(3);
 
 % Initialize structures to store the data
 Train.TrialDataXYTrain = cell(NumberTrialsTrain,1);
@@ -616,3 +637,4 @@ diff(ind) = diff(ind)+2*pi;
 plot(180*(smooth(diff))/pi, 'k')
 % axis([1 11 -180 180])
 title('After')
+end
