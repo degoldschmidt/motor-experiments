@@ -179,9 +179,9 @@ while ~exitDemo
             line6 = '\n\n\n >> The black dot represents your position in the arena';
             line8 = '\n\n\n >> A green dot will appear giving you feedback on your performance';
             line5 = '\n\n\n >> Every trial starts with the black dot in center of the screen';
-            line7 = '\n\n\n >> The movement should be balistic, performance includes speed and accuracy';
+            line7 = '\n\n\n >> The movement should be ballistic, performance includes speed and accuracy';
             line3 = '\n\n\n >> After the blue dot appears on the center press the ';
-            line4 = '\n\n mouse left key to reset the cursor and start a new trial';
+            line4 = '\n\n joystick trigger button to reset the cursor and start a new trial';
             line9 = '\n\n\n Press any key to continue';
             Screen('TextSize', window, 20 );
             DrawFormattedText(window, [line1 line2 line3 line4 line5 line6 line7 line8 line9],...
