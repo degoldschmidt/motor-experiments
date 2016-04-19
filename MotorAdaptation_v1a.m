@@ -97,6 +97,7 @@ dotColorsMatrix = [];
 dotCenter = [];
 
 % Initialize target position
+reset_rad = 50;
 t1Xpos = screenXpixels;
 t1Ypos = screenYpixels;
 
@@ -300,7 +301,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial 
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
@@ -443,7 +444,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
@@ -583,7 +584,7 @@ while ~exitDemo
                 % Force cursor to go to the center
                 SetMouse(xCenter, yCenter, window);
                 % Press in the center to start next trial
-                if buttons(1) == 1 && rr <10
+                if buttons(1) == 1 && rr < reset_rad
                     State = 1;
                     % Randomised next target position
                     ttr = possiblePositions(randi(9,1));
