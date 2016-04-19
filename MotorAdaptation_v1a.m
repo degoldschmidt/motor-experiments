@@ -1,4 +1,4 @@
-function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
+Mofunction [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
 %% 
 %[Test, Train, After] = MotorAdaptation_v1(n_trials,input_device)
 %  folder_path = 'C:\Users\Rodrigo\Documents\INDP2015\Motor Week\Data';
@@ -147,9 +147,9 @@ end
 % Auxiliary variables to build the protocol
 % Within each phase the protocol can be in a trial or intertrial (State)
 State = 0;
-nTrialt = 0;
-nTrialp = 0;
-nTriala = 0;
+nTrialt = 1;
+nTrialp = 1;
+nTriala = 1;
 TrialDXY = [];
 ttr = possiblePositions(randi(9,1));
 
