@@ -74,18 +74,8 @@ screenNumber = max(screens);
 white = WhiteIndex(screenNumber);
 black = BlackIndex(screenNumber);
 [window, windowRect] = PsychImaging('OpenWindow', screenNumber, white);
-if USE_OS==0
-    [screenXpixels, screenYpixels] = Screen('WindowSize', window);
-else
-    screenXpixels = 1280 
-    screenYpixels = 1024
-end
-if USE_OS==0
-    [xCenter, yCenter] = RectCenter(windowRect);
-else
-    xCenter = 1280/2; 
-    yCenter = 1024/2;
-end
+[screenXpixels, screenYpixels] = Screen('WindowSize', window);
+[xCenter, yCenter] = RectCenter(windowRect);
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 % Run the program in high priority
