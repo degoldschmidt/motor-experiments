@@ -129,7 +129,11 @@ HideCursor()
 if USE_DEVICE==0
     SetMouse(xCenter, yCenter, window);
 else
-    jxm=jmax/2; jym=jmax/2;    
+    if USE_OS == 0
+        jxm=jmax/2; jym=jmax/2;   
+    else
+        jxm=0; jym=0;
+    end
 end
 
 % Auxiliary variables to build the protocol
@@ -197,8 +201,8 @@ while ~exitDemo
         dotPositionMatrix = [];
         
         % After introduction pass to menu 1
-        menu = 1;
-    elseif menu == 1
+        %menu = 1;
+    %elseif menu == 1
         % Menu 1 is the training phase
         % Priority level of the process is maximum
         Priority(topPriorityLevel);
@@ -214,9 +218,17 @@ while ~exitDemo
             if USE_DEVICE==0
                 [xm, ym, buttons] = GetMouse(window);
             elseif USE_DEVICE==1
-                [jxm jym jzm buttons]= WinJoystickMex(0);
-                xm=(jxm/jmax) * screenXpixels %+screenXpixels/jmax
-                ym = jym/jmax * screenYpixels; %+screenXpixels/jmax;
+                if USE_OS == 0
+                    [jxm jym jzm buttons]= WinJoystickMex(0);
+                    xm=(jxm/jmax) * screenXpixels %+screenXpixels/jmax
+                    ym = jym/jmax * screenYpixels; %+screenXpixels/jmax;
+                else
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jym = Gamepad('GetAxis', USE_DEVICE, 2);
+                    xm=(jxm/jmax + 0.5) * screenXpixels; 
+                    ym = (jym/jmax + 0.5) * screenYpixels;
+                    buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                end
             else
                 
             end
