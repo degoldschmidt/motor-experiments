@@ -1,4 +1,4 @@
-Mofunction [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
+function [Test, Train, After] = MotorAdaptation_v1a(n_trials,input_device,test_subject,folder_path)
 %% 
 %[Test, Train, After] = MotorAdaptation_v1(n_trials,input_device)
 %  folder_path = 'C:\Users\Rodrigo\Documents\INDP2015\Motor Week\Data';
