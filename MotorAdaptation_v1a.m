@@ -216,14 +216,14 @@ while ~exitDemo
                     xm=(jxm/jmax) * screenXpixels;
                     ym = jym/jmax * screenYpixels;
                 elseif USE_OS==1 %MAC
-                    
-                end
-            else %if Gamepad
-                jxm = Gamepad('GetAxis', USE_DEVICE, 1);
+                    jxm = Gamepad('GetAxis', USE_DEVICE, 1);
                 jym = Gamepad('GetAxis', USE_DEVICE, 2);
                 xm=(jxm/jmax) * screenXpixels;
                 ym = jym/jmax * screenYpixels;
                 buttons(1) = Gamepad('GetButton', USE_DEVICE, 1);
+                end
+            else %if Gamepad
+                
             end
            
 
