@@ -335,12 +335,12 @@ while ~exitDemo
         while ~KbCheck
             [keyIsDown,secs, keyCode] = KbCheck;
             line1 = '>> You will now start the test phase';
-            line2 = '\n\n\n >> All the rules previously described still apply,';
-            line4 = '\n\n\n >> with the exception that now the green dot is the one that should cross the target.';
+            line2 = '\n\n\n >> All the other rules previously described still apply,';
+            line4 = '\n\n\n >> Now, the green dot is the one that should cross the target.';
 %             line5 = '\n\n >> Hint: aim for the dark gray position';
             line7 = '\n\n\n Press any key to continue';
             Screen('TextSize', window, 25 );
-            DrawFormattedText(window, [line1 line2 line4 line7],...
+            DrawFormattedText(window, [line1 line4 line2 line7],...
                 'center', screenYpixels * 0.25, black);
             Screen('Flip', window);
             
