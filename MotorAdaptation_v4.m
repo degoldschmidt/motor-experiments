@@ -40,8 +40,8 @@ end
 jmax=2^16;
 
 % Number of trial per phase
-NumberTrialsProtocol = n_trials(1);
-NumberTrialsTrain = n_trials(2);
+NumberTrialsProtocol = n_trials(2);
+NumberTrialsTrain = n_trials(1);
 NumberTrialsAfter = n_trials(3);
 
 % Initialize structures to store the data
