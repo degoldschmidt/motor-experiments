@@ -335,7 +335,7 @@ while ~exitDemo
             line1 = '>> You will now start the test phase';
             line2 = '\n\n\n >> All the rules previously described still apply';
             line4 = '\n\n\n >> In addition, a rotation of 67 degrees was applied to the cursor.';
-            line5 = '\n\n\n >> Hint: In order to hit the target, you can aim three dots counter_clockwise from the target position.';
+            line5 = '\n\n\n >> Hint: In order to hit the target, you should aim three dots counter_clockwise from the target position.';
             line6 = '\n\n\n >> Remember: your target position is still the red dot!';
             line7 = '\n\n\n Press any key to continue';
             Screen('TextSize', window, 25 );
