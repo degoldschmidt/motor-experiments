@@ -619,7 +619,7 @@ end
 ShowCursor()
 i = 0;
 
-str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
+str = [folder_path filesep 'v2_' test_subject, '_', num2str(i) '.mat'];
 if exist(str, 'file') == 0
     trr = true;
 else
@@ -627,7 +627,7 @@ else
 end
 while ~trr
     i = i + 1;
-    str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
+    str = [folder_path filesep 'v2_' test_subject, '_', num2str(i) '.mat'];
     if exist(str, 'file') == 0
         trr = true;
     else
