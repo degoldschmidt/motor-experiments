@@ -336,7 +336,7 @@ while ~exitDemo
             [keyIsDown,secs, keyCode] = KbCheck;
             line1 = '>> You will now start the test phase';
             line2 = '\n\n\n >> All the other rules previously described still apply,';
-            line4 = '\n\n\n >> Now, the green dot is the one that should cross the target.';
+            line4 = '\n\n\n >> Now cross the target with the green dot.';
 %             line5 = '\n\n >> Hint: aim for the dark gray position';
             line7 = '\n\n\n Press any key to continue';
             Screen('TextSize', window, 25 );
@@ -628,7 +628,7 @@ end
 ShowCursor()
 i = 0;
 
-str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
+str = [folder_path filesep 'v4_' test_subject, '_', num2str(i) '.mat'];
 if exist(str, 'file') == 0
     trr = true;
 else
@@ -636,7 +636,7 @@ else
 end
 while ~trr
     i = i + 1;
-    str = [folder_path filesep 'v1_' test_subject, '_', num2str(i) '.mat'];
+    str = [folder_path filesep 'v4_' test_subject, '_', num2str(i) '.mat'];
     if exist(str, 'file') == 0
         trr = true;
     else
