@@ -101,10 +101,10 @@ reset_rad = 50;
 t1Xpos = screenXpixels;
 t1Ypos = screenYpixels;
 
-% Angular positions to draw
-drawingPositions = 0:pi/8:2*pi;
-% Possible target angular positions
-possiblePositions = 0:pi/4:2*pi;
+% Angular positions to draw (1x16)
+drawingPositions = 0:pi/8:15*pi/8;
+% Possible target angular positions (1x8)
+possiblePositions = 0:pi/4:7*pi/4;
 
 % Create the matrix of dots to draw equidistant from 0 and at the defined
 % angles
@@ -120,7 +120,7 @@ for i = 1 : length(drawingPositions)
 end
 
 % Define the roation for test phase
-tt = pi/4; % rotation value
+tt = 45 * pi/180; % rotation value (default: 45 degrees)
 R = [cos(tt), -sin(tt); sin(tt), cos(tt)]; % rotation matrix
 
 % Reset the mouse to tha center and hide cursor
@@ -142,7 +142,7 @@ nTrialt = 1;
 nTrialp = 1;
 nTriala = 1;
 TrialDXY = [];
-ttr = possiblePositions(randi(9,1));
+ttr = possiblePositions(randi(8,1)); %% random target (integer between 1 and 8)
 
 % The protocol if just a sequence of menus
 menu = 0;
