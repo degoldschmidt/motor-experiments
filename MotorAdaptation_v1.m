@@ -304,8 +304,8 @@ while ~exitDemo
                 % Press in the center to start next trial 
                 if buttons(1) == 1 && rr < reset_rad
                     State = 1;
-                    % Randomised next target position
-                    ttr = possiblePositions(randi(9,1));
+                    % Randomised next target position (1 to 8)
+                    ttr = possiblePositions(randi(8,1));
                     dotPositionMatrix = [];
                 end
             end
@@ -448,8 +448,8 @@ while ~exitDemo
                 % Press in the center to start next trial
                 if buttons(1) == 1 && rr < reset_rad
                     State = 1;
-                    % Randomised next target position
-                    ttr = possiblePositions(randi(9,1));
+                    % Randomised next target position (1 to 8)
+                    ttr = possiblePositions(randi(8,1));
                     dotPositionMatrix = [];
                 end
             end
@@ -589,8 +589,8 @@ while ~exitDemo
                 % Press in the center to start next trial
                 if buttons(1) == 1 && rr < reset_rad
                     State = 1;
-                    % Randomised next target position
-                    ttr = possiblePositions(randi(9,1));
+                    % Randomised next target position (1 to 8)
+                    ttr = possiblePositions(randi(8,1));
                     dotPositionMatrix = [];
                 end
             end
